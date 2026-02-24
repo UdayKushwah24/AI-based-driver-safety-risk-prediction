@@ -2,7 +2,7 @@
 
 The fog detection module uses a deep learning image classification model based on EfficientNet-B0 to classify input road images into:
 
-Fog
+Fog.
 
 Clear
 
