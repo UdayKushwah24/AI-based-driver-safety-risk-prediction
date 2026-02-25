@@ -1,90 +1,136 @@
-🚀 Overview
+# 🚗 Real-Time Drowsiness Detection System
 
-The fog detection module uses a deep learning image classification model based on EfficientNet-B0 to classify input road images into:
+A real-time computer vision–based driver safety system that detects **drowsiness and yawning** using a live webcam feed and alerts the driver with an alarm sound.
 
-Fog.
+---
 
-Clear
+## 📌 Project Description
 
-This helps identify hazardous driving conditions in real time and supports safer decision-making.
+Driver fatigue is one of the major causes of road accidents worldwide.  
+This project uses **facial landmark detection** and **eye aspect ratio (EAR)** to monitor a driver’s alertness level in real-time.
 
-🧠 Model Details
+If signs of drowsiness or frequent yawning are detected, the system immediately triggers an alert sound to wake the driver.
 
-Architecture: EfficientNet-B0
+---
 
-Framework: PyTorch
+## 🎯 Motivation
 
-Classes: 2 (Fog / Clear)
+According to road safety statistics:
 
-Input size: 224 × 224
+- Thousands of accidents occur due to drowsy driving.
+- Many cases go unreported because fatigue is difficult to measure.
 
-Weights file: fog_model.pth
+This project aims to reduce such risks by implementing an intelligent monitoring system using Computer Vision.
 
-⚙️ API Implementation
+---
 
-A FastAPI endpoint is provided to perform fog detection from uploaded images.
+## 🧠 How the System Works
 
-Endpoint
+1. Captures live video stream from the webcam.
+2. Detects the face using Haar Cascade classifier.
+3. Detects facial landmarks using Dlib’s 68-point predictor.
+4. Calculates:
+   - Eye Aspect Ratio (EAR)
+   - Mouth Aspect Ratio (MAR)
+5. If:
+   - EAR falls below threshold → Drowsiness detected
+   - MAR exceeds threshold → Yawning detected
+6. Plays an alarm sound when fatigue is detected.
 
-POST /predict
+---
 
+## 🛠️ Technologies Used
 
-Input
+- Python
+- OpenCV
+- Dlib
+- NumPy
+- Haar Cascade Classifier
+- Facial Landmark Detection (68-point model)
 
-Image file (road scene)
+---
 
-Output
+## 📂 Project Structure
 
-{
-  "prediction": "Fog",
-  "confidence": 0.92
-}
-
-🛠️ How It Works
-
-User uploads a road image
-
-Image is resized and normalized
-
-Tensor passed to trained EfficientNet model
-
-Model predicts fog or clear
-
-Result returned via API
-
-📂 Added Files
-fog/
+```
+Realtime-Drowsiness-Detection/
 │
-├── app.py          # FastAPI fog detection API
-├── fog_model.pth   # Trained model weights
+├── drowsiness_yawn.py
+├── haarcascade_frontalface_default.xml
+├── shape_predictor_68_face_landmarks.dat
+├── Alert.wav
+├── requirements.txt
+└── README.md
+```
 
-▶️ Run Locally
+---
 
-Install dependencies:
+## ⚙️ Installation Guide
 
-pip install fastapi uvicorn torch torchvision timm pillow
+### 1️⃣ Clone the Repository
+
+```
+git clone https://github.com/UdayKushwah24/AI-based-driver-safety-risk-prediction.git
+```
+
+### 2️⃣ Navigate to the Project Folder
+
+```
+cd Realtime-Drowsiness-Detection
+```
+
+### 3️⃣ Install Required Libraries
+
+```
+pip install -r requirements.txt
+```
+
+### 4️⃣ Run the Application
+
+```
+python drowsiness_yawn.py
+```
+
+Make sure your webcam is connected and enabled.
+
+---
+
+## 🔔 Output
+
+- Real-time video monitoring
+- Live fatigue detection
+- On-screen warning messages
+- Alarm sound when drowsiness is detected
+
+---
+
+## 🚀 Future Enhancements
+
+- Deep learning–based eye state classification
+- Mobile app integration
+- Cloud-based driver monitoring
+- Integration with IoT-based vehicle systems
+- Dashboard analytics for fleet management
+
+---
+
+## 📊 Applications
+
+- Smart Vehicles
+- Fleet Management Systems
+- AI-Based Driver Monitoring
+- Road Safety Systems
+
+---
+
+## 👨‍💻 Author
+
+**Uday Kushwah**  
+B.Tech (AIML) Student  
+Passionate about Artificial Intelligence & Computer Vision
 
 
-Start server:
-
-uvicorn app:app --reload
-
-
-Open:
-
-http://127.0.0.1:8000/docs
-
-
-Upload an image to test fog detection.
-
-🎯 Role in Driver Safety Project
-
-Fog detection improves the main system by:
-
-Detecting low-visibility environments
-
-Increasing accident-risk awareness
-
-Supporting real-time driver alerts
-
-Enhancing environmental risk analysis
+**Aman Kushwah**  
+B.Tech (AIML) Student  
+Passionate about Artificial Intelligence & Computer Vision
+--- 
