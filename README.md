@@ -14,4 +14,4 @@ According to the National Highway Traffic Safety Administration, every year abou
 * [Numpy](http://www.numpy.org/) - NumPy is the fundamental package for scientific computing with Python. 
 
 
-  Made with Aman | Uday
+  Made with Aman kushwah | Uday kushwah
