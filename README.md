@@ -1,25 +1,172 @@
-# Real-Time-Drowsiness-Detection-System
+# 🚗 AI-Based Driver Safety Risk Prediction System
 
-Drowsiness detection is a safety technology that can prevent accidents that are caused by drivers who fell asleep while driving. The objective of this project is to build a drowsiness detection system that will detect drowsiness through the implementation of computer vision system that automatically detects drowsiness in real-time from a live video stream and then alert the user with an alarm notification.
+An **AI-powered Driver Monitoring System** that detects unsafe driving conditions in real time using **Computer Vision and Machine Learning**.
 
-## Motivation 
-According to the National Highway Traffic Safety Administration, every year about 100,000 police-reported crashes involve drowsy driving. These crashes result in more than 1,550 fatalities and 71,000 injuries. The real number may be much higher, however, as it is difficult to determine whether a driver was drowsy at the time of a crash. So, we tried to build a system, that detects whether a person is drowsy and alert him.
+The system analyzes the driver and environment to predict potential safety risks and alert the driver before accidents occur.
 
-## Built With
+---
 
-* [OpenCV Library](https://opencv.org/) - Most used computer vision library. Highly efficient. Facilitates real-time image processing.
-* [imutils library](https://github.com/jrosebr1/imutils) -  A collection of helper functions and utilities to make working with OpenCV easier.
-* [Dlib library](http://dlib.net/) - Implementations of state-of-the-art CV and ML algorithms (including face recognition).
-* [scikit-learn library](https://scikit-learn.org/stable/) - Machine learning in Python. Simple. Efficient. Beautiful, easy to use API.
-* [Numpy](http://www.numpy.org/) - NumPy is the fundamental package for scientific computing with Python. 
+# 📌 Project Overview
 
+Road accidents often occur due to **driver fatigue, yawning, and poor environmental visibility** such as fog.
+This project integrates multiple AI modules to monitor driver behavior and surroundings to enhance road safety.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  Made with Aman | Uday
-=======
-  Made with Aman kushwah | Uday kushwah
->>>>>>> 06818a50a23749dbf3bfc5d6abd8c796dca1cd96
-=======
-  Made with Aman | Uday
->>>>>>> 72f4c188d679672c7c6f7c223e53ae431c799ed0
+The system includes:
+
+* 😴 **Drowsiness Detection**
+* 🥱 **Yawning Detection**
+* 🌫 **Fog Detection**
+* 📊 **Driver Safety Risk Prediction**
+* 📈 **Dashboard Visualization**
+
+---
+
+# 🧠 Technologies Used
+
+| Technology                | Purpose                   |
+| ------------------------- | ------------------------- |
+| Python                    | Core Programming          |
+| OpenCV                    | Image Processing          |
+| MediaPipe                 | Facial Landmark Detection |
+| TensorFlow / Scikit-Learn | Machine Learning          |
+| Flask                     | Web Backend               |
+| HTML/CSS/JavaScript       | Frontend Interface        |
+
+---
+
+# 📂 Project Structure
+
+```
+AI-BASED-DRIVER-SAFETY-RISK-PREDICTION
+│
+├── backend
+│   └── Machine Learning models and backend logic
+│
+├── frontend
+│   └── Web interface files
+│
+├── Dashboard
+│   └── Data visualization and analytics
+│
+├── Drowsiness_and_Yawning_Detection
+│   └── Driver fatigue detection system
+│
+├── fog_detection
+│   └── Fog detection module
+│
+├── tests
+│   └── Testing scripts
+│
+├── app.py
+│   └── Main Flask application
+│
+├── requirements.txt
+│   └── Python dependencies
+│
+└── README.md
+```
+
+---
+
+# ⚙️ Installation Guide
+
+### 1️⃣ Clone the Repository
+
+```
+git clone https://github.com/UdayKushwah24/AI-based-driver-safety-risk-prediction.git
+```
+
+### 2️⃣ Navigate to the Project
+
+```
+cd AI-based-driver-safety-risk-prediction
+```
+
+### 3️⃣ Create Virtual Environment
+
+```
+python -m venv venv
+```
+
+### 4️⃣ Activate Virtual Environment
+
+Windows:
+
+```
+venv\Scripts\activate
+```
+
+Linux / Mac:
+
+```
+source venv/bin/activate
+```
+
+### 5️⃣ Install Dependencies
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+# ▶️ Running the Application
+
+Start the Flask server:
+
+```
+python app.py
+```
+
+Open the browser and go to:
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+# 🧩 System Modules
+
+### 1️⃣ Drowsiness Detection
+
+Detects if the driver is sleepy using **Eye Aspect Ratio (EAR)** and facial landmark analysis.
+
+### 2️⃣ Yawning Detection
+
+Monitors mouth movement to detect yawning patterns.
+
+### 3️⃣ Fog Detection
+
+Analyzes visibility conditions using image processing techniques.
+
+### 4️⃣ Risk Prediction
+
+Predicts the level of driver risk using machine learning models.
+
+---
+
+# 📊 Dashboard
+
+The dashboard provides real-time insights including:
+
+* Driver alertness level
+* Risk prediction score
+* Environmental visibility status
+* System alerts
+
+---
+
+# 🚀 Future Enhancements
+
+* Mobile App Integration
+* GPS-based accident prediction
+* Cloud deployment
+* Real-time driver alert notifications
+* Integration with smart vehicle systems
+
+---
+
+# ⭐ Support
+
+If you found this project helpful, please give it a **⭐ star on GitHub**.
