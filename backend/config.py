@@ -38,3 +38,29 @@ CORS_ORIGINS = ["*"]
 
 # ── Logging ──────────────────────────────────────────────────────────
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
+# ── Database ────────────────────────────────────────────────────────
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "driver_safety")
+
+# ── Auth / JWT ──────────────────────────────────────────────────────
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "change-this-jwt-secret-key-min-32-chars")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+JWT_EXP_MINUTES = int(os.getenv("JWT_EXP_MINUTES", 60))
+
+# ── API Rate Limiting ───────────────────────────────────────────────
+RATE_LIMIT_REQUESTS = int(os.getenv("RATE_LIMIT_REQUESTS", 120))
+RATE_LIMIT_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", 60))
+
+# ── OTP / Password Reset ────────────────────────────────────────────
+OTP_EXPIRY_MINUTES = int(os.getenv("OTP_EXPIRY_MINUTES", 5))
+
+# ── SMTP (optional — used for OTP emails) ───────────────────────────
+SMTP_HOST = os.getenv("SMTP_HOST", "")
+SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+SMTP_USER = os.getenv("SMTP_USER", "")
+SMTP_PASS = os.getenv("SMTP_PASS", "")
+SMTP_FROM = os.getenv("SMTP_FROM", "noreply@driversafety.ai")
+
+# ── Runtime Mode ────────────────────────────────────────────────────
+TEST_MODE = os.getenv("TEST_MODE", "false").lower() == "true"

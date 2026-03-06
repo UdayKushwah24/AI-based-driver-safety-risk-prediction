@@ -39,7 +39,7 @@ async def websocket_risk(ws: WebSocket):
             if now - fog_timer >= FOG_POLL_INTERVAL:
                 frame = drowsiness_service.get_frame()
                 if frame:
-                    fog_service.predict(frame)
+                    fog_service.predict(frame, user_id="system", image_name="ws_frame.jpg")
                 fog_timer = now
 
             # Compute unified risk

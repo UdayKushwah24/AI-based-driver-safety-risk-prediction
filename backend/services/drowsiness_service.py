@@ -18,17 +18,14 @@ Uses the new MediaPipe Tasks Vision API (mediapipe >= 0.10.14):
 
 import threading
 import time
+import math
 from pathlib import Path
 from typing import Optional
-
-import cv2
-import numpy as np
-import mediapipe as mp
-from scipy.spatial import distance as dist
 
 from backend.config import (
     EYE_AR_THRESH, EYE_AR_CONSEC_FRAMES, YAWN_THRESH, MODELS_DIR,
 )
+from backend.database.mongo import log_alert, log_drowsiness_event
 from backend.utils.logger import get_logger
 
 logger = get_logger("drowsiness_service")
@@ -48,19 +45,35 @@ _state: dict = {
 }
 _latest_frame_jpeg: Optional[bytes] = None
 _running = False
+_last_event_log_ts = 0.0
+_last_drowsy_alert_ts = 0.0
+_last_yawn_alert_ts = 0.0
 
 
 # ── Core EAR calculation — identical to original ─────────────────────
 def eye_aspect_ratio(eye):
-    A = dist.euclidean(eye[1], eye[5])
-    B = dist.euclidean(eye[2], eye[4])
-    C = dist.euclidean(eye[0], eye[3])
+    def _euclidean(p1, p2):
+        return math.hypot((p1[0] - p2[0]), (p1[1] - p2[1]))
+
+    A = _euclidean(eye[1], eye[5])
+    B = _euclidean(eye[2], eye[4])
+    C = _euclidean(eye[0], eye[3])
     return (A + B) / (2.0 * C)
 
 
 # ── Background detection loop ───────────────────────────────────────
 def _detection_loop():
     global _state, _latest_frame_jpeg, _running
+    global _last_event_log_ts, _last_drowsy_alert_ts, _last_yawn_alert_ts
+
+    try:
+        import cv2
+        import mediapipe as mp
+    except Exception as exc:
+        logger.error(f"CV dependencies unavailable, drowsiness service disabled: {exc}")
+        with _lock:
+            _state["active"] = False
+        return
 
     # ── Create FaceLandmarker with the Tasks API ──
     BaseOptions = mp.tasks.BaseOptions
@@ -158,6 +171,20 @@ def _detection_loop():
                     "timestamp": time.time(),
                 })
                 _latest_frame_jpeg = jpeg.tobytes()
+
+            now = time.time()
+            if drowsy or yawning:
+                if now - _last_event_log_ts >= 5:
+                    log_drowsiness_event(ear_score=ear_val, yawning_detected=yawning)
+                    _last_event_log_ts = now
+
+                if drowsy and now - _last_drowsy_alert_ts >= 15:
+                    log_alert(user_id="system", alert_type="drowsiness", severity="high")
+                    _last_drowsy_alert_ts = now
+
+                if yawning and now - _last_yawn_alert_ts >= 15:
+                    log_alert(user_id="system", alert_type="yawning", severity="medium")
+                    _last_yawn_alert_ts = now
 
             time.sleep(0.03)  # ~30 FPS cap
     except Exception as e:
