@@ -87,6 +87,47 @@ export default function Dashboard() {
 
   return (
     <div className="page-wrapper dashboard-page">
+      {/* ── Hero Section with Nexbot Robot ── */}
+      <div className="hero-section">
+        <div className="hero-text">
+          <h1>AI-Based Driver Safety Risk Prediction System</h1>
+          <p>
+            An intelligent system that detects drowsiness, stress, fog conditions,
+            and predicts accident risk using machine learning — keeping drivers safe
+            in real time.
+          </p>
+        </div>
+        <div className="hero-robot">
+          <iframe
+            src="https://my.spline.design/nexbotrobotcharacterconcept-7ICIxCNdXljLTvR22p8TEpNA/"
+            frameBorder="0"
+            width="100%"
+            height="500"
+            title="Nexbot Robot Assistant"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      {/* ── System Workflow Diagram ── */}
+      <section className="system-diagram">
+        <h2>How the AI Driver Safety System Works</h2>
+        <p className="diagram-desc">
+          Explore the interactive workflow that powers the driver monitoring system —
+          from live sensor input through AI modules to the real-time dashboard.
+        </p>
+        <div className="spline-container">
+          <iframe
+            src="https://my.spline.design/webdiagram-jDuKyuTJdw84DppJjkS7IrlS/"
+            frameBorder="0"
+            width="100%"
+            height="600"
+            title="System Workflow Diagram"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
       <div className="page-header">
         <h1>Dashboard Overview</h1>
         <p>AI-based Driver Safety Risk Prediction — Real-time monitoring</p>
