@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Real-Time-Drowsiness-Detection-System
 
 Drowsiness detection is a safety technology that can prevent accidents that are caused by drivers who fell asleep while driving. The objective of this project is to build a drowsiness detection system that will detect drowsiness through the implementation of computer vision system that automatically detects drowsiness in real-time from a live video stream and then alert the user with an alarm notification.
@@ -15,16 +15,6 @@ According to the National Highway Traffic Safety Administration, every year abou
 * [Numpy](http://www.numpy.org/) - NumPy is the fundamental package for scientific computing with Python. 
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  Made with Aman | Uday
-=======
-  Made with Aman kushwah | Uday kushwah
->>>>>>> 06818a50a23749dbf3bfc5d6abd8c796dca1cd96
-=======
-  Made with Aman | Uday
->>>>>>> 72f4c188d679672c7c6f7c223e53ae431c799ed0
-=======
 # AI-Based Driver Safety Risk Prediction System
 
 **Real-Time Drowsiness, Fog Detection and AI Risk Scoring Platform**
