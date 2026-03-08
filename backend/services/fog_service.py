@@ -14,6 +14,7 @@ The model weights file (fog_model.pth) is stored in backend/models/.
 
 from typing import Optional
 import io
+<<<<<<< HEAD
 
 from PIL import Image
 import torch
@@ -21,11 +22,29 @@ import timm
 from torchvision import transforms
 
 from backend.config import FOG_MODEL_PATH, FOG_MODEL_CLASSES
+=======
+import time
+
+try:
+    from PIL import Image
+    import torch
+    import timm
+    from torchvision import transforms
+except Exception:
+    Image = None
+    torch = None
+    timm = None
+    transforms = None
+
+from backend.config import FOG_MODEL_PATH, FOG_MODEL_CLASSES
+from backend.database.mongo import log_alert, log_fog_prediction
+>>>>>>> origin/Aman
 from backend.utils.logger import get_logger
 
 logger = get_logger("fog_service")
 
 # ── Model (loaded once) ─────────────────────────────────────────────
+<<<<<<< HEAD
 _device = torch.device("cpu")
 _model = None
 _transform = transforms.Compose([
@@ -36,11 +55,36 @@ _transform = transforms.Compose([
 
 # ── Track last prediction for state queries ──────────────────────────
 _last_state: dict = {"active": False}
+=======
+_device = torch.device("cpu") if torch is not None else None
+_model = None
+_transform = (
+    transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.5], [0.5]),
+    ])
+    if transforms is not None
+    else None
+)
+
+# ── Track last prediction for state queries ──────────────────────────
+_last_state: dict = {"active": False}
+_last_fog_alert_ts = 0.0
+>>>>>>> origin/Aman
 
 
 def load_model():
     """Load the fog detection model into memory. Call once at startup."""
     global _model
+<<<<<<< HEAD
+=======
+    if torch is None or timm is None or _transform is None:
+        logger.error("Fog service dependencies are missing")
+        _model = None
+        return
+
+>>>>>>> origin/Aman
     try:
         _model = timm.create_model(
             "efficientnet_b0", pretrained=False, num_classes=FOG_MODEL_CLASSES
@@ -53,7 +97,19 @@ def load_model():
         _model = None
 
 
+<<<<<<< HEAD
 def predict(image_bytes: bytes) -> dict:
+=======
+def _severity_from_probability(fog_probability: float) -> str:
+    if fog_probability >= 0.75:
+        return "high"
+    if fog_probability >= 0.5:
+        return "medium"
+    return "low"
+
+
+def predict(image_bytes: bytes, user_id: str = "system", image_name: str = "camera_frame.jpg") -> dict:
+>>>>>>> origin/Aman
     """
     Run fog/visibility prediction on raw image bytes.
     Returns dict with prediction, confidence, and active status.
@@ -65,6 +121,13 @@ def predict(image_bytes: bytes) -> dict:
         return _last_state
 
     try:
+<<<<<<< HEAD
+=======
+        if Image is None or torch is None or _transform is None:
+            _last_state = {"active": False, "error": "ML dependencies unavailable"}
+            return _last_state
+
+>>>>>>> origin/Aman
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         img_tensor = _transform(image).unsqueeze(0)
 
@@ -75,10 +138,32 @@ def predict(image_bytes: bytes) -> dict:
             _, pred = torch.max(output, 1)
 
         label = "Clear" if pred.item() == 0 else "Fog/Smog"
+<<<<<<< HEAD
+=======
+        fog_probability = float(prob[0][1].item()) if prob.shape[1] > 1 else 0.0
+
+        log_fog_prediction(image_name=image_name, fog_probability=fog_probability)
+
+        global _last_fog_alert_ts
+        if label == "Fog/Smog":
+            now = time.time()
+            if now - _last_fog_alert_ts >= 20:
+                log_alert(
+                    user_id=user_id,
+                    alert_type="fog",
+                    severity=_severity_from_probability(fog_probability),
+                )
+                _last_fog_alert_ts = now
+
+>>>>>>> origin/Aman
         _last_state = {
             "active": True,
             "prediction": label,
             "confidence": round(confidence * 100, 2),
+<<<<<<< HEAD
+=======
+            "fog_probability": round(fog_probability, 4),
+>>>>>>> origin/Aman
         }
         return _last_state
 

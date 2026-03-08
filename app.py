@@ -20,6 +20,10 @@ Single port: 8000 (configurable via PORT env var)
 
 import sys
 import os
+<<<<<<< HEAD
+=======
+import time
+>>>>>>> origin/Aman
 from pathlib import Path
 from contextlib import asynccontextmanager
 
@@ -29,6 +33,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from fastapi import FastAPI
+<<<<<<< HEAD
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -38,6 +43,32 @@ from backend.routes import api, ws
 from backend.utils.logger import get_logger
 
 logger = get_logger("app")
+=======
+from fastapi import Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+from backend.config import (
+    HOST,
+    PORT,
+    CORS_ORIGINS,
+    FRONTEND_DIR,
+    STATIC_DIR,
+    RATE_LIMIT_REQUESTS,
+    RATE_LIMIT_WINDOW_SECONDS,
+    TEST_MODE,
+)
+from backend.database.mongo import init_mongo
+from backend.services import drowsiness_service, fog_service, accident_service
+from backend.routes import api, ws, auth
+from backend.utils.logger import get_logger
+
+logger = get_logger("app")
+_rate_limit_store: dict[str, list[float]] = {}
+>>>>>>> origin/Aman
 
 
 # ── App Lifespan ─────────────────────────────────────────────────────
@@ -48,6 +79,7 @@ async def lifespan(app: FastAPI):
     logger.info("  Driver Safety System — Starting up")
     logger.info("=" * 60)
 
+<<<<<<< HEAD
     # 1. Load fog detection model (once)
     fog_service.load_model()
 
@@ -56,6 +88,18 @@ async def lifespan(app: FastAPI):
 
     # 3. Start drowsiness detection background thread
     drowsiness_service.start()
+=======
+    init_mongo()
+
+    # Accident model is a simple pkl — always load it regardless of TEST_MODE
+    accident_service.load_model()
+
+    if not TEST_MODE:
+        fog_service.load_model()
+        drowsiness_service.start()
+    else:
+        logger.info("TEST_MODE enabled: fog model and webcam start skipped")
+>>>>>>> origin/Aman
 
     logger.info(f"Server running at http://{HOST}:{PORT}")
     logger.info(f"Dashboard:  http://localhost:{PORT}")
@@ -67,13 +111,22 @@ async def lifespan(app: FastAPI):
 
     # Shutdown
     logger.info("Shutting down…")
+<<<<<<< HEAD
     drowsiness_service.stop()
+=======
+    if not TEST_MODE:
+        drowsiness_service.stop()
+>>>>>>> origin/Aman
     logger.info("All services stopped.")
 
 
 # ── FastAPI App ──────────────────────────────────────────────────────
 app = FastAPI(
+<<<<<<< HEAD
     title="AI-based Driver Safety & Risk Prediction System",
+=======
+    title="AI-Based Driver Safety Risk Prediction System",
+>>>>>>> origin/Aman
     version="2.0.0",
     lifespan=lifespan,
 )
@@ -87,8 +140,54 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+<<<<<<< HEAD
 # Mount routes
 app.include_router(api.router)
+=======
+
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    if request.url.path.startswith("/docs") or request.url.path.startswith("/openapi"):
+        return await call_next(request)
+
+    if request.url.path.startswith("/ws"):
+        return await call_next(request)
+
+    now = time.time()
+    client_ip = request.client.host if request.client else "unknown"
+    window_start = now - RATE_LIMIT_WINDOW_SECONDS
+    requests = [ts for ts in _rate_limit_store.get(client_ip, []) if ts >= window_start]
+
+    if len(requests) >= RATE_LIMIT_REQUESTS:
+        return JSONResponse(
+            status_code=429,
+            content={"error": "Rate limit exceeded"},
+        )
+
+    requests.append(now)
+    _rate_limit_store[client_ip] = requests
+    return await call_next(request)
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    return JSONResponse(status_code=exc.status_code, content={"error": str(exc.detail)})
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(status_code=422, content={"error": "Validation failed", "details": exc.errors()})
+
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Unhandled error: {exc}")
+    return JSONResponse(status_code=500, content={"error": "Internal server error"})
+
+# Mount routes
+app.include_router(api.router)
+app.include_router(auth.router)
+>>>>>>> origin/Aman
 app.include_router(ws.router)
 
 # Serve static files if build exists

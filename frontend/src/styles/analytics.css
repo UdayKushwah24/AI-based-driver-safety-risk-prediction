@@ -4,6 +4,7 @@
   flex-direction: column;
 }
 
+<<<<<<< HEAD
 .analytics-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,11 +91,25 @@
 }
 
 /* Analytics Stats Row */
+=======
+.analytics-error {
+  background: rgba(255, 91, 91, 0.15);
+  border: 1px solid rgba(255, 91, 91, 0.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+>>>>>>> origin/Aman
 .analytics-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+<<<<<<< HEAD
   margin-top: 35px;
+=======
+  margin-bottom: 20px;
+>>>>>>> origin/Aman
 }
 
 .analytics-stat {
@@ -103,6 +118,7 @@
   border-radius: 12px;
   padding: 20px;
   text-align: center;
+<<<<<<< HEAD
   transition: all 0.3s ease;
 }
 
@@ -142,11 +158,41 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+=======
+}
+
+.analytics-stat .a-stat-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.analytics-stat .a-stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.analytics-chart-area {
+  margin-top: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+>>>>>>> origin/Aman
 }
 
 .chart-header h3 {
   font-size: 1rem;
   font-weight: 600;
+<<<<<<< HEAD
 }
 
 .chart-header span {
@@ -197,4 +243,70 @@
   .analytics-stats {
     grid-template-columns: 1fr;
   }
+=======
+  margin-bottom: 10px;
+}
+
+.chart-wrap {
+  width: 100%;
+  height: 260px;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.heatmap-cell {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  height: 42px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.heatmap-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(232, 28, 255, 0.95), rgba(0, 229, 255, 0.95));
+}
+
+.heatmap-cell span {
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  padding-bottom: 4px;
+  z-index: 1;
+}
+
+@media (max-width: 1024px) {
+  .analytics-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .analytics-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+>>>>>>> origin/Aman
 }
