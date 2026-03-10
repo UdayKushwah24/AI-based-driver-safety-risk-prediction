@@ -4,8 +4,4 @@ imutils==0.5.2
 numpy==1.15.4
 opencv-python==4.0.0.21
 playsound==1.2.2
-<<<<<<< HEAD
 scipy==1.2.0
-=======
-scipy==1.2.0
->>>>>>> 72f4c188d679672c7c6f7c223e53ae431c799ed0

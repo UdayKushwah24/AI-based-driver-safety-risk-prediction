@@ -4,7 +4,7 @@ Logging utility — used across all backend modules.
 import logging
 import sys
 
-from backend.config import LOG_LEVEL
+from backend.config import LOG_LEVEL, ALERT_LOG_LEVEL
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -18,5 +18,6 @@ def get_logger(name: str) -> logging.Logger:
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-        logger.setLevel(getattr(logging, LOG_LEVEL.upper(), logging.INFO))
+        level = LOG_LEVEL if name != "alert_player" else ALERT_LOG_LEVEL
+        logger.setLevel(getattr(logging, level.upper(), logging.INFO))
     return logger

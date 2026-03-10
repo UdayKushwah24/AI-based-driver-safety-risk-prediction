@@ -23,9 +23,17 @@ from pathlib import Path
 from typing import Optional
 
 from backend.config import (
-    EYE_AR_THRESH, EYE_AR_CONSEC_FRAMES, YAWN_THRESH, MODELS_DIR,
+    AUDIO_ALERTS_ENABLED,
+    AUDIO_ALERT_DROWSY_PATH,
+    AUDIO_ALERT_YAWN_PATH,
+    EYE_AR_THRESH,
+    EYE_AR_CONSEC_FRAMES,
+    MODELS_DIR,
+    TEST_MODE,
+    YAWN_THRESH,
 )
 from backend.database.mongo import log_alert, log_drowsiness_event
+from backend.utils.alert_player import AlertPlayer
 from backend.utils.logger import get_logger
 
 logger = get_logger("drowsiness_service")
@@ -48,6 +56,11 @@ _running = False
 _last_event_log_ts = 0.0
 _last_drowsy_alert_ts = 0.0
 _last_yawn_alert_ts = 0.0
+_alert_player = AlertPlayer(
+    drowsy_path=AUDIO_ALERT_DROWSY_PATH,
+    yawn_path=AUDIO_ALERT_YAWN_PATH,
+    enabled=AUDIO_ALERTS_ENABLED and not TEST_MODE,
+)
 
 
 # ── Core EAR calculation — identical to original ─────────────────────
@@ -145,6 +158,19 @@ def _detection_loop():
                     ear_val = (eye_aspect_ratio(left_eye) +
                                eye_aspect_ratio(right_eye)) / 2.0
 
+                    # ── Draw GREEN bounding boxes around eyes ──
+                    for eye_pts in (left_eye, right_eye):
+                        xs = [p[0] for p in eye_pts]
+                        ys = [p[1] for p in eye_pts]
+                        pad = 5
+                        cv2.rectangle(
+                            frame,
+                            (min(xs) - pad, min(ys) - pad),
+                            (max(xs) + pad, max(ys) + pad),
+                            (0, 255, 0),  # GREEN
+                            2,
+                        )
+
                     if ear_val < EYE_AR_THRESH:
                         counter += 1
                         if counter >= EYE_AR_CONSEC_FRAMES:
@@ -156,8 +182,47 @@ def _detection_loop():
                     top = face_lm[13]
                     bottom = face_lm[14]
                     distance = abs((top.y - bottom.y) * h)
+
+                    # ── Draw RED bounding box around mouth ──
+                    mouth_idx = [
+                        61, 146, 91, 181, 84, 17, 314, 405, 321, 375,
+                        291, 409, 270, 269, 267, 0, 37, 39, 40, 185,
+                    ]
+                    mouth_pts = [
+                        (int(face_lm[i].x * w), int(face_lm[i].y * h))
+                        for i in mouth_idx
+                    ]
+                    mx = [p[0] for p in mouth_pts]
+                    my = [p[1] for p in mouth_pts]
+                    pad_m = 8
+                    cv2.rectangle(
+                        frame,
+                        (min(mx) - pad_m, min(my) - pad_m),
+                        (max(mx) + pad_m, max(my) + pad_m),
+                        (0, 0, 255),  # RED
+                        2,
+                    )
+
                     if distance > YAWN_THRESH:
                         yawning = True
+
+                    # ── Overlay alert text ──
+                    if drowsy:
+                        cv2.putText(
+                            frame, "DROWSY ALERT", (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 3,
+                        )
+                    if yawning:
+                        cv2.putText(
+                            frame, "YAWNING DETECTED", (10, 70),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 3,
+                        )
+
+                    # ── Show EAR value on frame ──
+                    cv2.putText(
+                        frame, f"EAR: {ear_val:.2f}", (480, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2,
+                    )
 
             _, jpeg = cv2.imencode(".jpg", frame)
 
@@ -186,6 +251,13 @@ def _detection_loop():
                     log_alert(user_id="system", alert_type="yawning", severity="medium")
                     _last_yawn_alert_ts = now
 
+            if yawning:
+                _alert_player.play_yawn()
+            elif drowsy:
+                _alert_player.play_drowsy()
+            else:
+                _alert_player.stop()
+
             time.sleep(0.03)  # ~30 FPS cap
     except Exception as e:
         logger.error(f"Detection loop error: {e}")
@@ -194,6 +266,7 @@ def _detection_loop():
         landmarker.close()
         with _lock:
             _state["active"] = False
+        _alert_player.stop()
         logger.info("Webcam released — detection stopped")
 
 
