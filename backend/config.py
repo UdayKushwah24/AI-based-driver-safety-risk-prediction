@@ -10,6 +10,7 @@ BACKEND_DIR = BASE_DIR / "backend"
 MODELS_DIR = BACKEND_DIR / "models"
 FRONTEND_DIR = BASE_DIR / "frontend"
 STATIC_DIR = BASE_DIR / "static"
+SOUNDS_DIR = BASE_DIR / "Drowsiness_and_Yawning_Detection"
 
 # ── Server ───────────────────────────────────────────────────────────
 HOST = os.getenv("HOST", "0.0.0.0")
@@ -23,6 +24,21 @@ FOG_MODEL_CLASSES = 2
 EYE_AR_THRESH = float(os.getenv("EYE_AR_THRESH", 0.25))
 EYE_AR_CONSEC_FRAMES = int(os.getenv("EYE_AR_CONSEC_FRAMES", 20))
 YAWN_THRESH = float(os.getenv("YAWN_THRESH", 25))
+
+# ── Audio Alerts ─────────────────────────────────────────────────────────
+AUDIO_ALERTS_ENABLED = os.getenv("ENABLE_AUDIO_ALERTS", "true").lower() == "true"
+AUDIO_ALERT_DROWSY_PATH = Path(
+	os.getenv(
+		"AUDIO_ALERT_DROWSY_PATH",
+		str(SOUNDS_DIR / "alert.wav"),
+	)
+)
+AUDIO_ALERT_YAWN_PATH = Path(
+	os.getenv(
+		"AUDIO_ALERT_YAWN_PATH",
+		str(SOUNDS_DIR / "alert2.wav"),
+	)
+)
 
 # ── Risk Engine Weights ─────────────────────────────────────────────
 DROWSINESS_WEIGHT = float(os.getenv("DROWSINESS_WEIGHT", 0.6))
@@ -38,6 +54,7 @@ CORS_ORIGINS = ["*"]
 
 # ── Logging ──────────────────────────────────────────────────────────
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+ALERT_LOG_LEVEL = os.getenv("ALERT_LOG_LEVEL", LOG_LEVEL)
 
 # ── Database ────────────────────────────────────────────────────────
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
