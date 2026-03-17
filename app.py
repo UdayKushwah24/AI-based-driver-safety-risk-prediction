@@ -1,4 +1,4 @@
-"""
+ """
 ╔══════════════════════════════════════════════════════════════════════╗
 ║       AI-based Driver Safety & Risk Prediction System               ║
 ║       Unified Application Server (Single Entry Point)               ║
@@ -20,10 +20,7 @@ Single port: 8000 (configurable via PORT env var)
 
 import sys
 import os
-<<<<<<< HEAD
-=======
 import time
->>>>>>> origin/Aman
 from pathlib import Path
 from contextlib import asynccontextmanager
 
@@ -33,17 +30,6 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from fastapi import FastAPI
-<<<<<<< HEAD
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-
-from backend.config import HOST, PORT, CORS_ORIGINS, FRONTEND_DIR, STATIC_DIR
-from backend.services import drowsiness_service, fog_service, accident_service
-from backend.routes import api, ws
-from backend.utils.logger import get_logger
-
-logger = get_logger("app")
-=======
 from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -68,7 +54,6 @@ from backend.utils.logger import get_logger
 
 logger = get_logger("app")
 _rate_limit_store: dict[str, list[float]] = {}
->>>>>>> origin/Aman
 
 
 # ── App Lifespan ─────────────────────────────────────────────────────
@@ -79,16 +64,6 @@ async def lifespan(app: FastAPI):
     logger.info("  Driver Safety System — Starting up")
     logger.info("=" * 60)
 
-<<<<<<< HEAD
-    # 1. Load fog detection model (once)
-    fog_service.load_model()
-
-    # 2. Load accident prediction model (once)
-    accident_service.load_model()
-
-    # 3. Start drowsiness detection background thread
-    drowsiness_service.start()
-=======
     init_mongo()
 
     # Accident model is a simple pkl — always load it regardless of TEST_MODE
@@ -99,7 +74,6 @@ async def lifespan(app: FastAPI):
         drowsiness_service.start()
     else:
         logger.info("TEST_MODE enabled: fog model and webcam start skipped")
->>>>>>> origin/Aman
 
     logger.info(f"Server running at http://{HOST}:{PORT}")
     logger.info(f"Dashboard:  http://localhost:{PORT}")
@@ -111,22 +85,14 @@ async def lifespan(app: FastAPI):
 
     # Shutdown
     logger.info("Shutting down…")
-<<<<<<< HEAD
-    drowsiness_service.stop()
-=======
     if not TEST_MODE:
         drowsiness_service.stop()
->>>>>>> origin/Aman
     logger.info("All services stopped.")
 
 
 # ── FastAPI App ──────────────────────────────────────────────────────
 app = FastAPI(
-<<<<<<< HEAD
-    title="AI-based Driver Safety & Risk Prediction System",
-=======
     title="AI-Based Driver Safety Risk Prediction System",
->>>>>>> origin/Aman
     version="2.0.0",
     lifespan=lifespan,
 )
@@ -140,10 +106,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-<<<<<<< HEAD
-# Mount routes
-app.include_router(api.router)
-=======
 
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
@@ -187,7 +149,6 @@ async def generic_exception_handler(request: Request, exc: Exception):
 # Mount routes
 app.include_router(api.router)
 app.include_router(auth.router)
->>>>>>> origin/Aman
 app.include_router(ws.router)
 
 # Serve static files if build exists
