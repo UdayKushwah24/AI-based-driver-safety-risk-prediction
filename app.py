@@ -61,9 +61,14 @@ _rate_limit_store: dict[str, list[float]] = {}
 async def lifespan(app: FastAPI):
     """Startup: load models, start detection. Shutdown: stop cleanly."""
     logger.info("=" * 60)
+
+ 
     logger.info("  Driver Safety System — Starting up")
     logger.info("=" * 60)
 
+
+
+ 
     init_mongo()
 
     # Accident model is a simple pkl — always load it regardless of TEST_MODE
@@ -95,6 +100,7 @@ app = FastAPI(
     title="AI-Based Driver Safety Risk Prediction System",
     version="2.0.0",
     lifespan=lifespan,
+ 
 )
 
 # CORS
