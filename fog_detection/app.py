@@ -35,6 +35,9 @@ async def predict(file: UploadFile = File(...)):
 
     label = "Clear" if pred.item() == 0 else "Fog/Smog"
 
+
+    
+
     return {
         "prediction": label,
         "confidence": round(confidence * 100, 2)
