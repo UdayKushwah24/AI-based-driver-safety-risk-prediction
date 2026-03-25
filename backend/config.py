@@ -4,6 +4,10 @@ Central Configuration — Single source of truth for all settings.
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # ── Project Paths ────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
 BACKEND_DIR = BASE_DIR / "backend"
@@ -50,7 +54,8 @@ FOG_POLL_INTERVAL = 5.0
 WEBSOCKET_PUSH_INTERVAL = 1.0
 
 # ── CORS ─────────────────────────────────────────────────────────────
-CORS_ORIGINS = ["*"]
+_cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+CORS_ORIGINS = [origin.strip() for origin in _cors_origins.split(",") if origin.strip()]
 
 # ── Logging ──────────────────────────────────────────────────────────
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")

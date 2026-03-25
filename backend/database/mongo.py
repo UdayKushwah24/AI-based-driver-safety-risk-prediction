@@ -47,6 +47,7 @@ def get_db() -> Optional[Database]:
 def _ensure_indexes(db: Database) -> None:
     db["users"].create_index([("email", ASCENDING)], unique=True)
     db["alerts"].create_index([("user_id", ASCENDING), ("timestamp", ASCENDING)])
+    db["analytics"].create_index([("user_id", ASCENDING), ("timestamp", ASCENDING)])
     db["fog_predictions"].create_index([("timestamp", ASCENDING)])
     db["drowsiness_events"].create_index([("timestamp", ASCENDING)])
     db["otp_requests"].create_index([("email", ASCENDING)])
@@ -106,7 +107,7 @@ def get_user_by_id(user_id: str) -> Optional[dict]:
     return _serialize_id(record)
 
 
-def log_alert(user_id: str, alert_type: str, severity: str) -> Optional[str]:
+def log_alert(user_id: str, alert_type: str, severity: str, metadata: Optional[dict[str, Any]] = None) -> Optional[str]:
     alerts = _collection("alerts")
     if alerts is None:
         return None
@@ -117,7 +118,30 @@ def log_alert(user_id: str, alert_type: str, severity: str) -> Optional[str]:
         "severity": severity,
         "timestamp": _to_utc_now(),
     }
+    if metadata:
+        payload.update(metadata)
     result = alerts.insert_one(payload)
+    return str(result.inserted_id)
+
+
+def log_analytics_prediction(
+    user_id: str,
+    risk_score: float,
+    accident_probability: float,
+    signals: Optional[list[dict[str, Any]]] = None,
+) -> Optional[str]:
+    analytics = _collection("analytics")
+    if analytics is None:
+        return None
+
+    payload = {
+        "user_id": str(user_id),
+        "risk_score": float(risk_score),
+        "accident_probability": float(accident_probability),
+        "signals": signals or [],
+        "timestamp": _to_utc_now(),
+    }
+    result = analytics.insert_one(payload)
     return str(result.inserted_id)
 
 
@@ -172,6 +196,21 @@ def get_drowsiness_events(limit: int = 100) -> list[dict[str, Any]]:
         return []
 
     rows = list(events.find({}).sort("timestamp", -1).limit(limit))
+    for row in rows:
+        _serialize_id(row)
+        if isinstance(row.get("timestamp"), datetime):
+            row["timestamp"] = row["timestamp"].isoformat()
+    return rows
+
+
+def get_analytics_history(user_id: str, limit: int = 200) -> list[dict[str, Any]]:
+    analytics = _collection("analytics")
+    if analytics is None:
+        return []
+
+    rows = list(
+        analytics.find({"user_id": str(user_id)}).sort("timestamp", -1).limit(limit)
+    )
     for row in rows:
         _serialize_id(row)
         if isinstance(row.get("timestamp"), datetime):

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import api from '../lib/api';
 import '../styles/alerthistory.css';
 
 export default function AlertHistory() {
@@ -8,18 +9,10 @@ export default function AlertHistory() {
   useEffect(() => {
     const loadAlerts = async () => {
       try {
-        const token = localStorage.getItem('auth_token');
-        const resp = await fetch('/api/alerts', {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        });
-        const data = await resp.json();
-        if (!resp.ok || data.error) {
-          setError(data.error || 'Unable to fetch alerts');
-          return;
-        }
-        setAlerts(data.alerts || []);
-      } catch {
-        setError('Unable to fetch alerts');
+        const resp = await api.get('/alerts');
+        setAlerts(resp.data.alerts || []);
+      } catch (e) {
+        setError(e.response?.data?.error || 'Unable to fetch alerts');
       }
     };
 

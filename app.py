@@ -78,7 +78,7 @@ async def lifespan(app: FastAPI):
     logger.info(f"Server running at http://{HOST}:{PORT}")
     logger.info(f"Dashboard:  http://localhost:{PORT}")
     logger.info(f"API docs:   http://localhost:{PORT}/docs")
-    logger.info(f"WebSocket:  ws://localhost:{PORT}/ws/risk")
+    logger.info(f"WebSocket:  ws://localhost:{PORT}/ws/live-risk")
     logger.info("=" * 60)
 
     yield  # App is running

@@ -16,7 +16,7 @@ function EmailStep({ onNext }) {
     setLoading(true);
 
     try {
-      const resp = await fetch('/auth/forgot-password', {
+      const resp = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -109,7 +109,7 @@ function OTPStep({ email, devOtp, onNext }) {
 
     setLoading(true);
     try {
-      const resp = await fetch('/auth/verify-otp', {
+      const resp = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp_code }),
@@ -186,7 +186,7 @@ function ResetStep({ email, otpCode }) {
 
     setLoading(true);
     try {
-      const resp = await fetch('/auth/reset-password', {
+      const resp = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp_code: otpCode, new_password: password }),

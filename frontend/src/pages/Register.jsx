@@ -22,7 +22,7 @@ export default function Register({ onLogin }) {
 
     setLoading(true);
     try {
-      const resp = await fetch('/auth/register', {
+      const resp = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -36,7 +36,7 @@ export default function Register({ onLogin }) {
       }
 
       // Auto-login after registration
-      const loginResp = await fetch('/auth/login', {
+      const loginResp = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: form.email, password: form.password }),

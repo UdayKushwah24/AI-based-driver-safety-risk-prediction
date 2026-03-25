@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import ParticlesBg from './components/ParticlesBg';
 import Dashboard from './pages/Dashboard';
@@ -15,13 +15,14 @@ import ForgotPassword from './pages/ForgotPassword';
 import './styles/global.css';
 
 // ── Protected Route wrapper ──────────────────────────────────────────
-function ProtectedRoute({ user, children }) {
-  if (!user) return <Navigate to="/login" replace />;
-  return children;
+function ProtectedRoute({ user }) {
+  const token = localStorage.getItem('auth_token');
+  if (!user || !token) return <Navigate to="/login" replace />;
+  return <Outlet />;
 }
 
 // ── Authenticated shell (sidebar + content) ──────────────────────────
-function AppShell({ user, onLogout, children }) {
+function AppShell({ user, onLogout }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -43,7 +44,7 @@ function AppShell({ user, onLogout, children }) {
       />
 
       <main className="main-content">
-        {children}
+        <Outlet />
       </main>
     </div>
   );
@@ -79,31 +80,22 @@ export default function App() {
           path="/register"
           element={user ? <Navigate to="/" replace /> : <Register onLogin={handleLogin} />}
         />
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
-        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* ── Protected dashboard routes ──────────────────── */}
-        <Route
-          path="/*"
-          element={
-            <ProtectedRoute user={user}>
-              <AppShell user={user} onLogout={handleLogout}>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/live-risk" element={<LiveRisk />} />
-                  <Route path="/analytics" element={<Analytics />} />
-                  <Route path="/alerts" element={<AlertHistory />} />
-                  <Route path="/upload" element={<ModelUpload />} />
-                  <Route path="/accident" element={<AccidentPrediction />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </AppShell>
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedRoute user={user} />}>
+          <Route element={<AppShell user={user} onLogout={handleLogout} />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/live-risk" element={<LiveRisk />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/alerts" element={<AlertHistory />} />
+            <Route path="/upload" element={<ModelUpload />} />
+            <Route path="/accident" element={<AccidentPrediction />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+        </Route>
+
+        <Route path="*" element={<Navigate to={user ? '/' : '/login'} replace />} />
       </Routes>
     </Router>
   );

@@ -31,7 +31,7 @@ def test_register_user(monkeypatch):
     monkeypatch.setattr("backend.services.auth_service.create_user", fake_create_user)
 
     resp = client.post(
-        "/auth/register",
+        "/api/auth/register",
         json={"name": "Aman", "email": "aman@example.com", "password": "StrongPass123"},
     )
     assert resp.status_code == 200
@@ -57,7 +57,7 @@ def test_login_user(monkeypatch):
     monkeypatch.setattr("backend.services.auth_service.get_user_by_email", fake_get_user_by_email)
 
     resp = client.post(
-        "/auth/login",
+        "/api/auth/login",
         json={"email": "aman@example.com", "password": "StrongPass123"},
     )
     assert resp.status_code == 200
@@ -83,7 +83,7 @@ def test_invalid_password(monkeypatch):
     monkeypatch.setattr("backend.services.auth_service.get_user_by_email", fake_get_user_by_email)
 
     resp = client.post(
-        "/auth/login",
+        "/api/auth/login",
         json={"email": "aman@example.com", "password": "WrongPassword"},
     )
     assert resp.status_code == 401
@@ -96,7 +96,7 @@ def test_forgot_password_unknown_email(monkeypatch):
     """Unknown emails still return 200 to prevent email enumeration."""
     monkeypatch.setattr("backend.routes.auth.get_user_by_email", lambda email: None)
 
-    resp = client.post("/auth/forgot-password", json={"email": "ghost@nowhere.com"})
+    resp = client.post("/api/auth/forgot-password", json={"email": "ghost@nowhere.com"})
     assert resp.status_code == 200
     assert "message" in resp.json()
 
@@ -112,7 +112,7 @@ def test_forgot_password_known_email(monkeypatch):
         lambda email: {"sent": False, "dev_otp": "123456"},
     )
 
-    resp = client.post("/auth/forgot-password", json={"email": "aman@example.com"})
+    resp = client.post("/api/auth/forgot-password", json={"email": "aman@example.com"})
     assert resp.status_code == 200
     body = resp.json()
     # Dev mode returns the OTP in the response
@@ -123,7 +123,7 @@ def test_verify_otp_valid(monkeypatch):
     monkeypatch.setattr("backend.routes.auth.verify_otp", lambda email, code: True)
 
     resp = client.post(
-        "/auth/verify-otp",
+        "/api/auth/verify-otp",
         json={"email": "aman@example.com", "otp_code": "123456"},
     )
     assert resp.status_code == 200
@@ -134,7 +134,7 @@ def test_verify_otp_invalid(monkeypatch):
     monkeypatch.setattr("backend.routes.auth.verify_otp", lambda email, code: False)
 
     resp = client.post(
-        "/auth/verify-otp",
+        "/api/auth/verify-otp",
         json={"email": "aman@example.com", "otp_code": "000000"},
     )
     assert resp.status_code == 400
@@ -146,7 +146,7 @@ def test_reset_password_success(monkeypatch):
     monkeypatch.setattr("backend.routes.auth.consume_otp", lambda email: None)
 
     resp = client.post(
-        "/auth/reset-password",
+        "/api/auth/reset-password",
         json={
             "email": "aman@example.com",
             "otp_code": "123456",
@@ -161,7 +161,7 @@ def test_reset_password_invalid_otp(monkeypatch):
     monkeypatch.setattr("backend.routes.auth.verify_otp", lambda email, code: False)
 
     resp = client.post(
-        "/auth/reset-password",
+        "/api/auth/reset-password",
         json={
             "email": "aman@example.com",
             "otp_code": "000000",
