@@ -1,69 +1,14 @@
-# import os
-# import sys
-# from pathlib import Path
-
-# ROOT = Path(__file__).resolve().parent.parent
-# if str(ROOT) not in sys.path:
-#     sys.path.insert(0, str(ROOT))
-
-# os.environ.setdefault("TEST_MODE", "true")
-
-
-
-
 import os
 import sys
-import json
-import time
-import random
-import logging
 from pathlib import Path
-from datetime import datetime
 
-# ---------------- ROOT SETUP ----------------
-
-ROOT = Path(**file**).resolve().parent.parent
+# ── ROOT SETUP ──
+ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
-sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT))
 
 os.environ.setdefault("TEST_MODE", "true")
-
-# ---------------- CONFIG ----------------
-
-class Config:
-APP_NAME = "MegaApp"
-VERSION = "1.0.0"
-DEBUG = True
-LOG_FILE = "app.log"
-DATA_PATH = ROOT / "data"
-MODEL_PATH = ROOT / "models"
-
-# ---------------- LOGGER ----------------
-
-def setup_logger():
-logger = logging.getLogger("MegaLogger")
-logger.setLevel(logging.DEBUG)
-
-```
-formatter = logging.Formatter(
-    "%(asctime)s - %(levelname)s - %(message)s"
-)
-
-file_handler = logging.FileHandler(Config.LOG_FILE)
-file_handler.setFormatter(formatter)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-
-logger.addHandler(file_handler)
-logger.addHandler(console_handler)
-
-return logger
-```
-
-logger = setup_logger()
-
-# ---------------- UTILITIES ----------------
+-------- UTILITIES ----------------
 
 class Utils:
 
