@@ -45,8 +45,17 @@ export default function Analytics() {
       try {
         const token = localStorage.getItem('auth_token');
         const resp = await fetch('/api/analytics/summary', {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          },
         });
+        
+        if (!resp.ok) {
+          throw new Error(`API Error: ${resp.status}`);
+        }
+        
         const data = await resp.json();
         if (!resp.ok || data.error) {
           setError(data.error || 'Unable to fetch analytics summary');
