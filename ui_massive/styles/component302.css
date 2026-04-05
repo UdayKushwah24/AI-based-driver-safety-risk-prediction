@@ -1,0 +1,75 @@
+.component-302 {
+  border: 1px solid hsla(338, 70%, 64%, 0.35);
+  background: linear-gradient(140deg, hsla(338, 45%, 16%, 0.38), hsla(13, 55%, 12%, 0.23));
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.component-302 .header-302 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.component-302 .controls-302 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.component-302 .grid-302 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.component-302 .panel-302 {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.component-302 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.component-302 th,
+.component-302 td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px;
+  text-align: left;
+}
+
+.component-302 input,
+.component-302 select,
+.component-302 button {
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 7px 9px;
+}
+
+.component-302 .tree-302 {
+  display: grid;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.component-302 .node-302 {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 5px 7px;
+}

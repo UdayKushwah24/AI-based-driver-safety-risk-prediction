@@ -1,0 +1,75 @@
+.component-696 {
+  border: 1px solid hsla(264, 70%, 64%, 0.35);
+  background: linear-gradient(140deg, hsla(264, 45%, 16%, 0.38), hsla(299, 55%, 12%, 0.23));
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.component-696 .header-696 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.component-696 .controls-696 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.component-696 .grid-696 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.component-696 .panel-696 {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.component-696 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.component-696 th,
+.component-696 td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px;
+  text-align: left;
+}
+
+.component-696 input,
+.component-696 select,
+.component-696 button {
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 7px 9px;
+}
+
+.component-696 .tree-696 {
+  display: grid;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.component-696 .node-696 {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 5px 7px;
+}

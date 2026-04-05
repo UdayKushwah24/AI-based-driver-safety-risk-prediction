@@ -1,0 +1,74 @@
+.page-123 {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.page-123 .header-123 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid hsla(81, 70%, 66%, 0.4);
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(120deg, hsla(81, 50%, 18%, 0.4), hsla(111, 45%, 12%, 0.24));
+}
+
+.page-123 .controls-123 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.page-123 .layout-123 {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 12px;
+}
+
+.page-123 .sidebar-123,
+.page-123 .content-123 {
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+  display: grid;
+  gap: 9px;
+}
+
+.page-123 input,
+.page-123 select,
+.page-123 textarea,
+.page-123 button {
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.18);
+  color: white;
+  padding: 7px 9px;
+}
+
+.page-123 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.page-123 th,
+.page-123 td {
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  padding: 6px;
+  text-align: left;
+}
+
+.page-123 .component-grid-123 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 1100px) {
+  .page-123 .layout-123 {
+    grid-template-columns: 1fr;
+  }
+}

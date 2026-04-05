@@ -12,6 +12,7 @@ import AccidentPrediction from './pages/AccidentPrediction';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
+import MassiveRoutes from './massive/routes/MassiveRoutes';
 import './styles/global.css';
 
 // ── Protected Route wrapper ──────────────────────────────────────────
@@ -98,6 +99,7 @@ export default function App() {
                   <Route path="/upload" element={<ModelUpload />} />
                   <Route path="/accident" element={<AccidentPrediction />} />
                   <Route path="/settings" element={<Settings />} />
+                  <Route path="/scale/*" element={<MassiveRoutes />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </AppShell>

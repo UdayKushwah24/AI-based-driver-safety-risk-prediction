@@ -1,0 +1,82 @@
+.scale-page-12 {
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.scale-header-12 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid hsla(276, 75%, 70%, 0.35);
+  background: linear-gradient(120deg, hsla(276, 40%, 22%, 0.42), hsla(311, 65%, 14%, 0.25));
+}
+
+.scale-grid-12 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 12px;
+}
+
+.scale-panel-12 {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 11px;
+  display: grid;
+  gap: 9px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.scale-table-12 {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.scale-table-12 th,
+.scale-table-12 td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 7px;
+  text-align: left;
+}
+
+.scale-form-12 {
+  display: grid;
+  gap: 8px;
+}
+
+.scale-form-12 input,
+.scale-form-12 select,
+.scale-form-12 button,
+.scale-form-12 textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 8px 10px;
+}
+
+.scale-modal-12 {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 40;
+}
+
+.scale-modal-body-12 {
+  width: min(760px, 92vw);
+  max-height: 82vh;
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 17, 25, 0.95);
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}

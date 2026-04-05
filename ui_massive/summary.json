@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "hooks": 550,
+    "utils": 550,
+    "pipelines": 550,
+    "components": 1100,
+    "componentStyles": 1100,
+    "pages": 140,
+    "pageStyles": 140,
+    "routes": 1,
+    "app": 1,
+    "main": 1,
+    "baseStyles": 1
+  },
+  "totalFiles": 4134
+}

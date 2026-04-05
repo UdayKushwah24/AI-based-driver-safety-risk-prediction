@@ -1,0 +1,74 @@
+.page-75 {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.page-75 .header-75 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid hsla(225, 70%, 66%, 0.4);
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(120deg, hsla(225, 50%, 18%, 0.4), hsla(255, 45%, 12%, 0.24));
+}
+
+.page-75 .controls-75 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.page-75 .layout-75 {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 12px;
+}
+
+.page-75 .sidebar-75,
+.page-75 .content-75 {
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+  display: grid;
+  gap: 9px;
+}
+
+.page-75 input,
+.page-75 select,
+.page-75 textarea,
+.page-75 button {
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.18);
+  color: white;
+  padding: 7px 9px;
+}
+
+.page-75 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.page-75 th,
+.page-75 td {
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  padding: 6px;
+  text-align: left;
+}
+
+.page-75 .component-grid-75 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 1100px) {
+  .page-75 .layout-75 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -8,6 +8,7 @@ const navItems = [
   { path: '/alerts', label: 'Alert History', icon: '🧾' },
   { path: '/accident', label: 'Accident Predictor', icon: '🚨' },
   { path: '/upload', label: 'Model Upload', icon: '📁' },
+  { path: '/scale/p01', label: 'Scale UI Hub', icon: '🧩' },
   { path: '/settings', label: 'Settings', icon: '⚙' },
 ];
 

@@ -1,0 +1,74 @@
+.page-79 {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.page-79 .header-79 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid hsla(333, 70%, 66%, 0.4);
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(120deg, hsla(333, 50%, 18%, 0.4), hsla(3, 45%, 12%, 0.24));
+}
+
+.page-79 .controls-79 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.page-79 .layout-79 {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 12px;
+}
+
+.page-79 .sidebar-79,
+.page-79 .content-79 {
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+  display: grid;
+  gap: 9px;
+}
+
+.page-79 input,
+.page-79 select,
+.page-79 textarea,
+.page-79 button {
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.18);
+  color: white;
+  padding: 7px 9px;
+}
+
+.page-79 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.page-79 th,
+.page-79 td {
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  padding: 6px;
+  text-align: left;
+}
+
+.page-79 .component-grid-79 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 1100px) {
+  .page-79 .layout-79 {
+    grid-template-columns: 1fr;
+  }
+}

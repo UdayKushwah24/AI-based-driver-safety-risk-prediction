@@ -1,0 +1,13 @@
+{
+  "summary": {
+    "hooks": 120,
+    "utils": 120,
+    "components": 300,
+    "componentStyles": 300,
+    "pages": 30,
+    "pageStyles": 30,
+    "routes": 1,
+    "baseStyles": 1
+  },
+  "totalFiles": 902
+}
